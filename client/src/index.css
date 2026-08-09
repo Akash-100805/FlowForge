@@ -1,0 +1,115 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg-primary: #FAFAF8;
+  --bg-secondary: #F5F4F0;
+  --sidebar-bg: #FFFFFF;
+
+  --text-primary: #1A1A1A;
+  --text-secondary: #4A4A4A;
+  --text-tertiary: #8B8B8B;
+
+  --accent: 111 78 55;
+  --accent-hover: 139 111 71;
+  --accent-active: 90 61 43;
+
+  --border: #E5E3DF;
+  --hover: #F0EDE8;
+}
+
+.dark {
+  --bg-primary: #0A0A0A;
+  --bg-secondary: #1A1A1A;
+  --sidebar-bg: #000000;
+
+  --text-primary: #F5F4F0;
+  --text-secondary: #A8A8A8;
+  --text-tertiary: #6B6B6B;
+
+  --accent: 212 165 116;
+  --accent-hover: 232 196 160;
+  --accent-active: 184 146 106;
+
+  --border: #2A2A2A;
+  --hover: #242424;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-tertiary);
+}
+
+@layer components {
+  .btn-accent {
+    @apply bg-accent text-white hover:bg-accent-hover hover:scale-[0.98] active:bg-accent-active font-semibold py-3 px-6 rounded-xl transition-all duration-200 tracking-wide shadow-md flex items-center justify-center gap-2 relative overflow-hidden;
+  }
+  .btn-gold {
+    @apply bg-accent text-white hover:bg-accent-hover hover:scale-[0.98] active:bg-accent-active font-semibold py-3 px-6 rounded-xl transition-all duration-200 tracking-wide shadow-md flex items-center justify-center gap-2 relative overflow-hidden;
+  }
+  .btn-outline {
+    @apply border border-border text-text-primary hover:bg-hover active:scale-[0.98] font-medium py-2 px-4 rounded-xl transition-all duration-200 flex items-center justify-center gap-2;
+  }
+  .card-styled {
+    @apply bg-secondary border border-border rounded-xl transition-all duration-300;
+  }
+  .card-obsidian {
+    @apply bg-secondary border border-border rounded-xl transition-all duration-300;
+  }
+  .card-hoverable {
+    @apply hover:-translate-y-1 hover:shadow-xl hover:border-accent/30;
+  }
+  .input-styled {
+    @apply w-full bg-secondary border border-border rounded-xl px-4 py-3 text-text-primary placeholder-text-tertiary focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/30 transition-all duration-200;
+  }
+  .input-dark {
+    @apply w-full bg-secondary border border-border rounded-xl px-4 py-3 text-text-primary placeholder-text-tertiary focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/30 transition-all duration-200;
+  }
+  .label-styled {
+    @apply text-xs font-semibold tracking-wider text-text-secondary mb-2 block;
+  }
+  .notes-editor-styles:empty:before {
+    content: attr(data-placeholder);
+    color: var(--text-tertiary);
+    pointer-events: none;
+    display: block;
+    white-space: pre-wrap;
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}

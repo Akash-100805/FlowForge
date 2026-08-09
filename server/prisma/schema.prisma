@@ -1,0 +1,87 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  createdAt    DateTime @default(now())
+  
+  projectMembers ProjectMember[]
+}
+
+model Project {
+  id          String   @id @default(uuid())
+  name        String
+  description String?
+  status      String   @default("ACTIVE")
+  repoUrl     String?
+  createdAt   DateTime @default(now())
+
+  members ProjectMember[]
+  stages  WorkflowStage[]
+  tasks   Task[]
+  note    ProjectNote?
+}
+
+model ProjectMember {
+  id        String @id @default(uuid())
+  projectId String
+  userId    String
+  role      String @default("MEMBER")
+
+  project Project @relation(fields: [projectId], references: [id])
+  user    User    @relation(fields: [userId], references: [id])
+
+  @@unique([projectId, userId])
+}
+
+model WorkflowStage {
+  id         String @id @default(uuid())
+  name       String
+  orderIndex Int
+  projectId  String
+
+  project Project @relation(fields: [projectId], references: [id])
+  tasks   Task[]
+
+  @@unique([projectId, orderIndex])
+  @@unique([projectId, name])
+}
+
+model Task {
+  id          String   @id @default(uuid())
+  title       String
+  description String?
+  priority    String   @default("MEDIUM")
+  dueDate     DateTime?
+
+  projectId   String
+  stageId     String
+  assigneeId  String?
+
+  createdAt   DateTime @default(now())
+
+  project     Project       @relation(fields: [projectId], references: [id])
+  stage       WorkflowStage @relation(fields: [stageId], references: [id])
+}
+
+model ProjectNote {
+  id        String   @id @default(uuid())
+  projectId String   @unique
+  content   String   @default("")
+  updatedAt DateTime @updatedAt
+
+  project   Project  @relation(fields: [projectId], references: [id])
+}
